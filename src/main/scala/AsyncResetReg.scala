@@ -4,32 +4,32 @@ package freechips.asyncqueue
 
 import Chisel._
 import chisel3.util.HasBlackBoxResource
-import chisel3.core.IntParam
+import chisel3.experimental.IntParam
 
 /** This black-boxes an Async Reset
   *  (or Set)
   * Register.
-  *  
+  *
   * Because Chisel doesn't support
-  * parameterized black boxes, 
-  * we unfortunately have to 
+  * parameterized black boxes,
+  * we unfortunately have to
   * instantiate a number of these.
-  *  
+  *
   *  We also have to hard-code the set/
   *  reset behavior.
-  *  
+  *
   *  Do not confuse an asynchronous
   *  reset signal with an asynchronously
-  *  reset reg. You should still 
-  *  properly synchronize your reset 
+  *  reset reg. You should still
+  *  properly synchronize your reset
   *  deassertion.
-  *  
+  *
   *  @param d Data input
   *  @param q Data Output
   *  @param clk Clock Input
   *  @param rst Reset Input
   *  @param en Write Enable Input
-  *  
+  *
   */
 
 class AsyncResetReg(resetValue: Int = 0)
@@ -44,7 +44,7 @@ class AsyncResetReg(resetValue: Int = 0)
     val rst = Bool(INPUT)
   }
 
-  setResource("/vsrc/AsyncResetReg.v")
+  addResource("/vsrc/AsyncResetReg.v")
 }
 
 class SimpleRegIO(val w: Int) extends Bundle{
@@ -70,7 +70,7 @@ class AsyncResetRegVec(val w: Int, val init: BigInt) extends Module {
     reg.io.q
   }
 
-  io.q := q.asUInt
+  io.q := q.asUInt()
 
   override def desiredName = s"AsyncResetRegVec_w${w}_i${init}"
 
